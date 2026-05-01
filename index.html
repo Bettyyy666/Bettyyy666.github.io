@@ -1,1 +1,980 @@
-Rui Zhou
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rui Zhou — CS Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #f5f0e8;
+  --ink: #1a0f0a;
+  --rose: #d4908a;
+  --sage: #7a9e7e;
+  --gold: #c9a84c;
+  --lavender: #9b8ec4;
+  --pink: #e8b4b8;
+  --peach: #e8c4a0;
+  --silver: #c0c0c8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ═══════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════ */
+.cursor-dot {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.2s, height 0.2s;
+}
+/* crosshair lines */
+.cursor-ring::before, .cursor-ring::after {
+  content: '';
+  position: absolute;
+  background: var(--ink);
+}
+.cursor-ring::before {
+  width: 1px; height: 10px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring::after {
+  width: 10px; height: 1px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+a, button { cursor: none; }
+
+/* ═══════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-name-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 28px;
+}
+.hero-name {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  perspective: 600px;
+}
+.hero-name + .hero-name { margin-top: -8px; }
+
+.bubble-letter {
+  font-family: 'Baloo 2', 'Nunito', cursive;
+  font-weight: 800;
+  font-size: clamp(72px, 13vw, 150px);
+  display: inline-block;
+  line-height: 1;
+  position: relative;
+  animation: bubbleBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  -webkit-text-stroke: 0.5px rgba(255,255,255,0.2);
+  letter-spacing: -2px;
+}
+
+/* ── R — Iridescent / Holographic glass ── */
+.bubble-letter[data-letter="R"] {
+  color: transparent;
+  background:
+    linear-gradient(135deg, rgba(180,220,255,0.6) 0%, rgba(200,180,255,0.5) 25%, rgba(255,200,220,0.5) 50%, rgba(180,255,220,0.4) 75%, rgba(200,210,255,0.6) 100%),
+    radial-gradient(ellipse at 30% 25%, #e0eaff 0%, #c8d8f0 50%, #a8b8e0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 #b0c0e0, 0 4px 0 #a0b0d0, 0 6px 0 #90a0c0,
+    0 8px 18px rgba(160,180,220,0.35);
+  transform: rotate(-4deg) scale(1.04);
+  animation-delay: 0s;
+  filter: drop-shadow(4px 8px 12px rgba(160,180,220,0.35));
+}
+
+/* ── u (1st) — Chrome / Liquid Metal ── */
+.bubble-letter[data-letter="u1"] {
+  color: transparent;
+  background: linear-gradient(160deg, #f0f0f0 0%, #d8d8e0 20%, #a0a0a8 45%, #c8c8d0 55%, #e8e8f0 75%, #b0b0b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 1px 0 #c0c0c8, 0 3px 0 #a8a8b0, 0 5px 0 #909098,
+    0 7px 14px rgba(140,140,160,0.4);
+  transform: rotate(2deg) scale(0.98);
+  animation-delay: 0.07s;
+  filter: drop-shadow(3px 6px 10px rgba(140,140,160,0.4));
+}
+
+/* ── i — Matte Pink Rubber ── */
+.bubble-letter[data-letter="i"] {
+  color: transparent;
+  background: radial-gradient(ellipse at 35% 20%, #f8c8d0 0%, #e8a0b0 35%, #d88098 70%, #c86888 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 #d07088, 0 4px 0 #c06078, 0 6px 0 #b05068,
+    0 8px 16px rgba(208,112,136,0.3);
+  transform: rotate(-2deg) scale(1.06);
+  animation-delay: 0.14s;
+  filter: drop-shadow(3px 7px 10px rgba(208,112,136,0.35));
+}
+
+/* ── Z — Fuzzy Felt / Suede (soft blue) ── */
+.bubble-letter[data-letter="Z"] {
+  color: transparent;
+  background: radial-gradient(ellipse at 30% 30%, #c8d8e8 0%, #a0b8d0 40%, #80a0c0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 #88a0b8, 0 4px 0 #7890a8, 0 6px 0 #688098,
+    0 8px 16px rgba(128,160,192,0.3),
+    1px 1px 2px rgba(128,160,192,0.15),
+    -1px -1px 2px rgba(128,160,192,0.15);
+  transform: rotate(3deg) scale(1.02);
+  animation-delay: 0.24s;
+  filter: drop-shadow(4px 8px 12px rgba(128,160,192,0.35)) url(#fuzzy);
+  /* simulate felt texture with slight blur */
+}
+
+/* ── h — Translucent Peach / Frosted Glass ── */
+.bubble-letter[data-letter="h"] {
+  color: transparent;
+  background: radial-gradient(ellipse at 40% 20%, rgba(255,220,200,0.95) 0%, rgba(240,190,160,0.85) 40%, rgba(220,160,130,0.75) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 rgba(220,170,140,0.7), 0 4px 0 rgba(200,150,120,0.5), 0 6px 0 rgba(180,130,100,0.3),
+    0 8px 20px rgba(220,160,120,0.25);
+  transform: rotate(-1deg) scale(1.0);
+  animation-delay: 0.31s;
+  filter: drop-shadow(3px 6px 14px rgba(220,170,140,0.3));
+}
+
+/* ── o — Warm Gold / Metallic ── */
+.bubble-letter[data-letter="o"] {
+  color: transparent;
+  background: linear-gradient(145deg, #f0d890 0%, #d4a840 25%, #b08820 50%, #d4a840 70%, #f0d890 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 #b89030, 0 4px 0 #a07820, 0 6px 0 #886810,
+    0 8px 16px rgba(180,136,32,0.35);
+  transform: rotate(2.5deg) scale(0.97);
+  animation-delay: 0.38s;
+  filter: drop-shadow(4px 7px 10px rgba(180,136,32,0.35));
+}
+
+/* ── u (2nd) — Terrazzo / Speckled Stone ── */
+.bubble-letter[data-letter="u2"] {
+  color: transparent;
+  background: radial-gradient(ellipse at 35% 25%, #e8e0d8 0%, #d0c8c0 45%, #b8b0a8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 #c0b8b0, 0 4px 0 #a8a098, 0 6px 0 #989088,
+    0 8px 16px rgba(176,168,160,0.3);
+  transform: rotate(-3deg) scale(1.03);
+  animation-delay: 0.45s;
+  filter: drop-shadow(3px 6px 10px rgba(176,168,160,0.35));
+}
+
+/* sheen overlay on each letter */
+.bubble-letter::after {
+  content: attr(data-char);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.12) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+
+@keyframes bubbleBounce {
+  0% { opacity: 0; transform: translateY(60px) scale(0.5) rotate(0deg); }
+  60% { opacity: 1; transform: translateY(-10px) scale(1.08); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(11px, 1.4vw, 14px);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(26,15,10,0.6);
+  text-align: center;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(26,15,10,0.35);
+  animation: gentle-bob 2s ease-in-out infinite;
+}
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px; height: 30px;
+  background: rgba(26,15,10,0.2);
+  margin: 8px auto 0;
+}
+@keyframes gentle-bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ═══════════════════════════════
+   DESK-OBJECT PHOTOS
+   ═══════════════════════════════ */
+.desk-object {
+  position: absolute;
+  width: var(--w, 160px);
+  top: var(--top, 50%);
+  left: var(--left, 50%);
+  transform: rotate(var(--rot, 0deg));
+  border: 6px solid white;
+  box-shadow: 4px 8px 24px rgba(0,0,0,0.12);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  z-index: 2;
+  object-fit: cover;
+  border-radius: 2px;
+  will-change: transform;
+}
+.desk-object:hover {
+  transform: rotate(0deg) scale(1.08) !important;
+  box-shadow: 6px 12px 32px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+/* ═══════════════════════════════
+   SECTION HEADERS — FILM TITLE CARD
+   ═══════════════════════════════ */
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+.section-header .chapter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(26,15,10,0.45);
+  display: block;
+  margin-bottom: 8px;
+}
+.section-header .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(36px, 6vw, 64px);
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.section-header .section-title .accent {
+  font-family: 'Pinyon Script', cursive;
+  font-style: normal;
+}
+
+/* ═══════════════════════════════
+   LAYOUT: SECTIONS
+   ═══════════════════════════════ */
+section {
+  position: relative;
+  padding: 100px 8% 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════
+   ABOUT SECTION
+   ═══════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.about-text p {
+  margin-bottom: 18px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: rgba(26,15,10,0.8);
+}
+.about-photo-zone {
+  position: relative;
+  min-height: 400px;
+}
+
+/* ═══════════════════════════════
+   RESEARCH — INDEX CARDS
+   ═══════════════════════════════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+.index-card {
+  background: white;
+  padding: 32px 28px 28px;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 3px 6px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.index-card::before {
+  content: '';
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  background: var(--rose);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(212,144,138,0.3);
+}
+.index-card:nth-child(odd) { transform: rotate(-1.2deg); }
+.index-card:nth-child(even) { transform: rotate(0.8deg); }
+.index-card:hover {
+  transform: rotate(0deg) translateY(-6px) !important;
+  box-shadow: 4px 10px 30px rgba(0,0,0,0.14);
+}
+.index-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+}
+.index-card .card-venue {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--sage);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.index-card p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(26,15,10,0.7);
+}
+
+/* ═══════════════════════════════
+   EXPERIENCE — TYPEWRITER TIMELINE
+   ═══════════════════════════════ */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px; top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(26,15,10,0.15);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 48px;
+  padding: 24px 28px;
+  background: rgba(255,255,255,0.5);
+  border-left: 3px solid var(--gold);
+  transition: background 0.3s ease;
+}
+.timeline-item:hover {
+  background: rgba(255,255,255,0.85);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -48px; top: 30px;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid var(--cream);
+}
+.timeline-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.timeline-item .role {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--rose);
+  margin-bottom: 4px;
+}
+.timeline-item .date-loc {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(26,15,10,0.45);
+  margin-bottom: 12px;
+}
+.timeline-item ul {
+  list-style: none;
+  padding: 0;
+}
+.timeline-item li {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(26,15,10,0.7);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 6px;
+}
+.timeline-item li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════
+   SKILLS — SCATTERED PILLS
+   ═══════════════════════════════ */
+.skills-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.skill-pill {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  background: white;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: rotate(var(--rot, 0deg));
+}
+.skill-pill:hover {
+  transform: rotate(0deg) scale(1.08);
+  box-shadow: 3px 6px 16px rgba(0,0,0,0.12);
+}
+.skill-pill.rose { border: 1.5px solid var(--rose); color: var(--rose); }
+.skill-pill.sage { border: 1.5px solid var(--sage); color: var(--sage); }
+.skill-pill.gold { border: 1.5px solid var(--gold); color: var(--gold); }
+.skill-pill.lavender { border: 1.5px solid var(--lavender); color: var(--lavender); }
+.skill-pill.ink { border: 1.5px solid var(--ink); color: var(--ink); }
+
+/* ═══════════════════════════════
+   CONTACT
+   ═══════════════════════════════ */
+.contact-section {
+  text-align: center;
+  padding: 120px 8% 100px;
+}
+.contact-title {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(48px, 8vw, 90px);
+  color: var(--ink);
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+.contact-links {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.contact-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 10px 24px;
+  border: 1px solid rgba(26,15,10,0.2);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.contact-links a:hover {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+
+/* ═══════════════════════════════
+   FOOTER
+   ═══════════════════════════════ */
+footer {
+  text-align: center;
+  padding: 40px 8%;
+  font-size: 11px;
+  color: rgba(26,15,10,0.3);
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════
+   DECORATIVE DOODLES
+   ═══════════════════════════════ */
+.deco {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════ */
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo-zone { min-height: 250px; }
+  .desk-object { display: none; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .timeline { padding-left: 24px; }
+  .timeline::before { left: 4px; }
+  .timeline-item::before { left: -30px; }
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+  section { padding: 60px 6% 40px; }
+}
+@media (max-width: 480px) {
+  .hero-name { gap: 0; }
+  .bubble-letter { font-size: 52px; }
+  .hero-name + .hero-name { margin-top: -4px; }
+}
+
+/* ═══════════════════════════════
+   NAV BAR
+   ═══════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(245,240,232,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,15,10,0.06);
+  transition: transform 0.3s ease;
+}
+nav.hidden { transform: translateY(-100%); }
+
+.nav-logo {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(26,15,10,0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+
+@media (max-width: 600px) {
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 10px; letter-spacing: 1px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#hero" class="nav-logo">Rui Zhou</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════
+     HERO
+     ═══════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-name-wrap">
+    <div class="hero-name">
+      <span class="bubble-letter" data-letter="R" data-char="R">R</span>
+      <span class="bubble-letter" data-letter="u1" data-char="u">u</span>
+      <span class="bubble-letter" data-letter="i" data-char="i">i</span>
+    </div>
+    <div class="hero-name">
+      <span class="bubble-letter" data-letter="Z" data-char="Z">Z</span>
+      <span class="bubble-letter" data-letter="h" data-char="h">h</span>
+      <span class="bubble-letter" data-letter="o" data-char="o">o</span>
+      <span class="bubble-letter" data-letter="u2" data-char="u">u</span>
+    </div>
+  </div>
+  <p class="hero-subtitle">Betty &middot; CS Researcher &middot; Brown University</p>
+  <span class="scroll-hint">scroll</span>
+</section>
+
+<!-- ═══════════════════════════════
+     ABOUT
+     ═══════════════════════════════ -->
+<section id="about">
+  <div class="section-header">
+    <span class="chapter-label">Chapter 01 &mdash; Introduction</span>
+    <h2 class="section-title">About <span class="accent">Me</span></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm Rui (Betty) Zhou, a Computer Science M.S. candidate at Brown University with a 4.0 GPA, working in the Brown Visual Computing Group. My research sits at the intersection of computer vision, generative models, and 3D understanding.</p>
+      <p>I co-authored a WACV 2026 paper on controllable human-scene interaction video generation and currently lead a program synthesis project bridging sewing pattern design and body measurement grading. Before Brown, I studied at UC Davis (B.S. in CS, minor in Managerial Economics) and took visiting coursework at Harvard.</p>
+      <p>My industry experience spans building production ML pipelines at Style3D, where I worked on fabric try-on features adopted by 60+ enterprise clients, and architecting RAG data pipelines at UC Davis's Data Visualization Lab. I care deeply about making complex systems feel intuitive and beautiful.</p>
+    </div>
+    <div class="about-photo-zone">
+      <img src="photos/photo1.jpg" class="desk-object" style="--rot: -4deg; --top: 10%; --left: 15%; --w: 180px;" alt="Photo 1">
+      <img src="photos/photo2.jpg" class="desk-object" style="--rot: 3deg; --top: 45%; --left: 40%; --w: 150px;" alt="Photo 2">
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     RESEARCH
+     ═══════════════════════════════ -->
+<section id="research">
+  <div class="section-header">
+    <span class="chapter-label">Chapter 02 &mdash; Explorations</span>
+    <h2 class="section-title"><span class="accent">Research</span></h2>
+  </div>
+
+  <!-- Floating desk photos -->
+  <img src="photos/photo3.jpg" class="desk-object" style="--rot: -3deg; --top: 5%; --left: 78%; --w: 140px;" alt="Photo 3">
+
+  <div class="cards-grid">
+    <div class="index-card">
+      <h3>GenHSI</h3>
+      <div class="card-venue">WACV 2026 &middot; Accepted</div>
+      <p>Controllable generation of human-scene interaction videos. A training-free 3D-aware keyframe prompting pipeline for long, controllable HSI video generation.</p>
+    </div>
+
+    <div class="index-card">
+      <h3>body2GarmentCode</h3>
+      <div class="card-venue">Brown Visual Computing &middot; Ongoing</div>
+      <p>A program synthesis project that infers parametric GarmentCode programs from designer-created sewing patterns and body measurement variants, enabling generalized garment grading across body shapes.</p>
+    </div>
+
+    <div class="index-card">
+      <h3>DINOLIP</h3>
+      <div class="card-venue">Vision-Language &middot; 2025</div>
+      <p>Trained CLIP-style dual-encoder architectures using DINOv3 as a frozen visual backbone. Built a synthetic evaluation pipeline with 1,000+ structured image triplets and defined binding sensitivity metrics for compositional reasoning.</p>
+    </div>
+
+    <div class="index-card">
+      <h3>PDFagent</h3>
+      <div class="card-venue">Full-Stack &middot; 2025</div>
+      <p>End-to-end travel document translation app with a React &amp; TypeScript editor panel for interactive translated content. Backend chains MinerU for structured PDF parsing and GPT-4o for context-aware translation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     EXPERIENCE
+     ═══════════════════════════════ -->
+<section id="experience">
+  <div class="section-header">
+    <span class="chapter-label">Chapter 03 &mdash; The Journey</span>
+    <h2 class="section-title"><span class="accent">Experience</span></h2>
+  </div>
+
+  <img src="photos/photo4.jpg" class="desk-object" style="--rot: 4deg; --top: 8%; --left: 80%; --w: 130px;" alt="Photo 4">
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>Brown Visual Computing Group</h3>
+      <div class="role">Research Assistant</div>
+      <div class="date-loc">09/2024 &ndash; present &middot; Providence, RI</div>
+      <ul>
+        <li>Co-authored WACV 2026 accepted paper on controllable HSI video generation</li>
+        <li>Managed datasets for video generation experiments; implemented automated data validation and preprocessing scripts</li>
+        <li>Leading body2GarmentCode, a program synthesis project for generalized garment grading</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Style3D</h3>
+      <div class="role">Software Engineer Intern (AI/ML)</div>
+      <div class="date-loc">04/2024 &ndash; 07/2024 &middot; Hangzhou, China</div>
+      <ul>
+        <li>Built production ML pipelines for Fabric-TryOn feature with Stable Diffusion and PyTorch; 850K+ units sold, 60+ enterprise clients</li>
+        <li>Developed texture inpainting/outpainting module for seamless fabric rendering</li>
+        <li>Conducted data analysis across multimodal embedding models to improve text-to-image alignment</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <h3>UC Davis, Data Visualization Lab</h3>
+      <div class="role">Research Assistant</div>
+      <div class="date-loc">01/2023 &ndash; 03/2024 &middot; Davis, CA</div>
+      <ul>
+        <li>Architected end-to-end RAG data pipeline for the GreenMine Project, processing 600+ pages of unstructured data</li>
+        <li>Designed scalable data ingestion and embedding workflows with multi-threading, improving query response time by 25%</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     SKILLS
+     ═══════════════════════════════ -->
+<section id="skills">
+  <div class="section-header">
+    <span class="chapter-label">Chapter 04 &mdash; Toolkit</span>
+    <h2 class="section-title">Technical <span class="accent">Skills</span></h2>
+  </div>
+
+  <div class="skills-cloud">
+    <span class="skill-pill rose" style="--rot: -2deg;">Python</span>
+    <span class="skill-pill sage" style="--rot: 1.5deg;">TypeScript</span>
+    <span class="skill-pill gold" style="--rot: -1deg;">C/C++</span>
+    <span class="skill-pill lavender" style="--rot: 2.5deg;">Java</span>
+    <span class="skill-pill ink" style="--rot: -3deg;">R</span>
+    <span class="skill-pill rose" style="--rot: 1deg;">PyTorch</span>
+    <span class="skill-pill sage" style="--rot: -2.5deg;">TensorFlow</span>
+    <span class="skill-pill gold" style="--rot: 3deg;">OpenCV</span>
+    <span class="skill-pill lavender" style="--rot: -1.5deg;">NumPy</span>
+    <span class="skill-pill ink" style="--rot: 2deg;">Pandas</span>
+    <span class="skill-pill rose" style="--rot: -3deg;">Stable Diffusion</span>
+    <span class="skill-pill sage" style="--rot: 1.5deg;">Vue.js</span>
+    <span class="skill-pill gold" style="--rot: -1deg;">React</span>
+    <span class="skill-pill lavender" style="--rot: 2deg;">NoSQL</span>
+    <span class="skill-pill ink" style="--rot: -2deg;">Linux</span>
+    <span class="skill-pill rose" style="--rot: 3deg;">Git</span>
+    <span class="skill-pill sage" style="--rot: -1.5deg;">Qdrant</span>
+    <span class="skill-pill gold" style="--rot: 1deg;">MeshLab</span>
+    <span class="skill-pill lavender" style="--rot: -2.5deg;">PIL</span>
+    <span class="skill-pill ink" style="--rot: 2.5deg;">GDB</span>
+    <span class="skill-pill rose" style="--rot: -1deg;">Computer Vision</span>
+    <span class="skill-pill sage" style="--rot: 3deg;">Deep Learning</span>
+    <span class="skill-pill gold" style="--rot: -2deg;">NLP</span>
+    <span class="skill-pill lavender" style="--rot: 1.5deg;">3D Vision</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     EDUCATION (bonus section)
+     ═══════════════════════════════ -->
+<section id="education">
+  <div class="section-header">
+    <span class="chapter-label">Chapter 05 &mdash; Foundations</span>
+    <h2 class="section-title"><span class="accent">Education</span></h2>
+  </div>
+
+  <div class="cards-grid">
+    <div class="index-card">
+      <h3>Brown University</h3>
+      <div class="card-venue">M.S. Computer Science &middot; GPA 4.0/4.0</div>
+      <p>09/2024 &ndash; 05/2026 (expected). Core courses: Computer Vision, Deep Learning, Software Engineering, Intelligent Robotics.</p>
+    </div>
+    <div class="index-card">
+      <h3>Harvard University</h3>
+      <div class="card-venue">Visiting Coursework &middot; 2024</div>
+      <p>Innovation in Science and Engineering.</p>
+    </div>
+    <div class="index-card">
+      <h3>UC Davis</h3>
+      <div class="card-venue">B.S. Computer Science &middot; GPA 3.83/4.0</div>
+      <p>09/2020 &ndash; 04/2024. Minor in Managerial Economics. Core courses: Algorithms, Data Structures, OOD, Operating Systems, Networks, ML, Computer Graphics.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     CONTACT
+     ═══════════════════════════════ -->
+<section class="contact-section" id="contact">
+  <img src="photos/photo5.jpg" class="desk-object" style="--rot: -3deg; --top: 15%; --left: 5%; --w: 140px;" alt="Photo 5">
+  <h2 class="contact-title">Say Hello</h2>
+  <div class="contact-links">
+    <a href="mailto:rui_zhou1@brown.edu">Email</a>
+    <a href="https://github.com/Bettyyy666" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Rui (Betty) Zhou &middot; Built with care in Providence</p>
+</footer>
+
+<!-- ═══════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════ -->
+<script>
+(function() {
+  /* ── Custom Cursor ── */
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  /* Enlarge cursor on links / interactive */
+  document.querySelectorAll('a, .index-card, .skill-pill, .desk-object').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '48px';
+      ring.style.height = '48px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '32px';
+      ring.style.height = '32px';
+    });
+  });
+
+  /* ── Parallax desk objects on scroll ── */
+  const deskObjects = document.querySelectorAll('.desk-object');
+  let ticking = false;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    deskObjects.forEach((obj, i) => {
+      const speed = 0.03 + (i % 3) * 0.015;
+      const rect = obj.getBoundingClientRect();
+      const offset = (scrollY - obj.offsetTop) * speed;
+      const rot = obj.style.getPropertyValue('--rot') || '0deg';
+      obj.style.transform = `rotate(${rot}) translateY(${offset}px)`;
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  });
+
+  /* ── Nav hide/show on scroll ── */
+  const nav = document.querySelector('nav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > lastScroll && currentScroll > 80) {
+      nav.classList.add('hidden');
+    } else {
+      nav.classList.remove('hidden');
+    }
+    lastScroll = currentScroll;
+  });
+
+  /* ── Fade-in on scroll (IntersectionObserver) ── */
+  const fadeEls = document.querySelectorAll('.index-card, .timeline-item, .skill-pill, .section-header');
+  fadeEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = (el.style.transform || '') + ' translateY(20px)';
+    el.style.transition = (el.style.transition || '') + ', opacity 0.6s ease, transform 0.6s ease';
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        // restore the original rotation for cards/pills
+        const rot = entry.target.style.getPropertyValue('--rot');
+        if (entry.target.classList.contains('skill-pill')) {
+          entry.target.style.transform = `rotate(${rot || '0deg'})`;
+        } else if (entry.target.classList.contains('index-card')) {
+          // keep the slight rotation from CSS
+          entry.target.style.transform = entry.target.classList.contains('index-card') ?
+            (Array.from(entry.target.parentElement.children).indexOf(entry.target) % 2 === 0 ?
+              'rotate(-1.2deg)' : 'rotate(0.8deg)') : 'none';
+        } else {
+          entry.target.style.transform = 'translateY(0)';
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  /* ── Stagger skill pills ── */
+  document.querySelectorAll('.skill-pill').forEach((pill, i) => {
+    pill.style.transitionDelay = (i * 0.04) + 's';
+  });
+})();
+</script>
+</body>
+</html>
