@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════
+   Responsive breakpoints
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .about-grid           { grid-template-columns: 1fr; }
+  .about-photo-zone     { min-height: 250px; }
+  .desk-object          { display: none; }
+  .cards-grid           { grid-template-columns: 1fr; }
+
+  .timeline             { padding-left: 24px; }
+  .timeline::before     { left: 4px; }
+  .timeline-item::before { left: -30px; }
+
+  /* Disable custom cursor on touch devices */
+  body                  { cursor: auto; }
+  .cursor-dot,
+  .cursor-ring          { display: none; }
+
+  section               { padding: 60px 6% 40px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links     { gap: 14px; }
+  .nav-links a   { font-size: 10px; letter-spacing: 1px; }
+}
+
+@media (max-width: 480px) {
+  .hero-name             { gap: 0; }
+  .bubble-letter         { font-size: 52px; }
+  .hero-name + .hero-name { margin-top: -4px; }
+}

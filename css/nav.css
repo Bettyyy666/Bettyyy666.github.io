@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════
+   Fixed navigation bar
+   ═══════════════════════════════════════════════ */
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(245, 240, 232, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ink-06);
+  transition: transform 0.3s ease;
+}
+
+nav.hidden {
+  transform: translateY(-100%);
+}
+
+.nav-logo {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(26, 15, 10, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}

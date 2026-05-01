@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════════
+   Reset, base typography, custom cursor
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+a, button {
+  cursor: none;
+}
+
+
+/* ── Custom cursor ── */
+
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.2s, height 0.2s;
+}
+
+/* Crosshair lines inside ring */
+.cursor-ring::before,
+.cursor-ring::after {
+  content: '';
+  position: absolute;
+  background: var(--ink);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-ring::before {
+  width: 1px;
+  height: 10px;
+}
+
+.cursor-ring::after {
+  width: 10px;
+  height: 1px;
+}
+
+
+/* ── Shared section layout ── */
+
+section {
+  position: relative;
+  padding: 100px 8% 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* ── Section headers — film title card style ── */
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-header .chapter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.section-header .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(36px, 6vw, 64px);
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.section-header .section-title .accent {
+  font-family: 'Pinyon Script', cursive;
+  font-style: normal;
+}
+
+
+/* ── Footer ── */
+
+footer {
+  text-align: center;
+  padding: 40px 8%;
+  font-size: 11px;
+  color: var(--ink-35);
+  letter-spacing: 1px;
+}
+
+
+/* ── Decorative elements ── */
+
+.deco {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 0;
+}

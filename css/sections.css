@@ -1,0 +1,288 @@
+/* ═══════════════════════════════════════════════
+   Content sections — About, Research, Experience,
+   Skills, Education, Contact
+   ═══════════════════════════════════════════════ */
+
+
+/* ── Desk-object photos (Polaroid-style) ── */
+
+.desk-object {
+  position: absolute;
+  width: var(--w, 160px);
+  top: var(--top, 50%);
+  left: var(--left, 50%);
+  transform: rotate(var(--rot, 0deg));
+  border: 6px solid white;
+  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+  z-index: 2;
+  object-fit: cover;
+  border-radius: 2px;
+  will-change: transform;
+}
+
+.desk-object:hover {
+  transform: rotate(0deg) scale(1.08) !important;
+  box-shadow: 6px 12px 32px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+
+/* ═══════════════════════════════
+   ABOUT
+   ═══════════════════════════════ */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-text p {
+  margin-bottom: 18px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink-80);
+}
+
+.about-photo-zone {
+  position: relative;
+  min-height: 400px;
+}
+
+
+/* ═══════════════════════════════
+   RESEARCH — Index cards
+   ═══════════════════════════════ */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.index-card {
+  background: white;
+  padding: 32px 28px 28px;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 3px 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Pin dot at top */
+.index-card::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--rose);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(212, 144, 138, 0.3);
+}
+
+.index-card:nth-child(odd)  { transform: rotate(-1.2deg); }
+.index-card:nth-child(even) { transform: rotate(0.8deg); }
+
+.index-card:hover {
+  transform: rotate(0deg) translateY(-6px) !important;
+  box-shadow: 4px 10px 30px rgba(0, 0, 0, 0.14);
+}
+
+.index-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+}
+
+.index-card .card-venue {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--sage);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.index-card p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(26, 15, 10, 0.7);
+}
+
+
+/* ═══════════════════════════════
+   EXPERIENCE — Typewriter timeline
+   ═══════════════════════════════ */
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink-15);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 48px;
+  padding: 24px 28px;
+  background: rgba(255, 255, 255, 0.5);
+  border-left: 3px solid var(--gold);
+  transition: background 0.3s ease;
+}
+
+.timeline-item:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Dot on the vertical line */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -48px;
+  top: 30px;
+  width: 10px;
+  height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid var(--cream);
+}
+
+.timeline-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.timeline-item .role {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--rose);
+  margin-bottom: 4px;
+}
+
+.timeline-item .date-loc {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-45);
+  margin-bottom: 12px;
+}
+
+.timeline-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.timeline-item li {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(26, 15, 10, 0.7);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.timeline-item li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+
+/* ═══════════════════════════════
+   SKILLS — Scattered pills
+   ═══════════════════════════════ */
+
+.skills-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.skill-pill {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  background: white;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.skill-pill:hover {
+  transform: rotate(0deg) scale(1.08);
+  box-shadow: 3px 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.skill-pill.rose     { border: 1.5px solid var(--rose);     color: var(--rose); }
+.skill-pill.sage     { border: 1.5px solid var(--sage);     color: var(--sage); }
+.skill-pill.gold     { border: 1.5px solid var(--gold);     color: var(--gold); }
+.skill-pill.lavender { border: 1.5px solid var(--lavender); color: var(--lavender); }
+.skill-pill.ink      { border: 1.5px solid var(--ink);      color: var(--ink); }
+
+
+/* ═══════════════════════════════
+   CONTACT
+   ═══════════════════════════════ */
+
+.contact-section {
+  text-align: center;
+  padding: 120px 8% 100px;
+}
+
+.contact-title {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(48px, 8vw, 90px);
+  color: var(--ink);
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+
+.contact-links {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 10px 24px;
+  border: 1px solid rgba(26, 15, 10, 0.2);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.contact-links a:hover {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}

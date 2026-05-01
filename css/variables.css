@@ -1,0 +1,24 @@
+/* ═══════════════════════════════════════════════
+   Design Tokens — colors, fonts, spacing
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* Colors */
+  --cream:    #f5f0e8;
+  --ink:      #1a0f0a;
+  --rose:     #d4908a;
+  --sage:     #7a9e7e;
+  --gold:     #c9a84c;
+  --lavender: #9b8ec4;
+  --pink:     #e8b4b8;
+  --peach:    #e8c4a0;
+  --silver:   #c0c0c8;
+
+  /* Translucent ink shades */
+  --ink-80: rgba(26, 15, 10, 0.8);
+  --ink-60: rgba(26, 15, 10, 0.6);
+  --ink-45: rgba(26, 15, 10, 0.45);
+  --ink-35: rgba(26, 15, 10, 0.35);
+  --ink-15: rgba(26, 15, 10, 0.15);
+  --ink-06: rgba(26, 15, 10, 0.06);
+}
