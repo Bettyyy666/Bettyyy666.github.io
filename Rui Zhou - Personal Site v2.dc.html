@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500;1,9..40,600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #F2CBD9; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(26,21,24,0.9); color: #F2CBD9; }
+    @keyframes auroraA { 0% { transform: translate(0,0) scale(1); } 33% { transform: translate(12vw,8vh) scale(1.14); } 66% { transform: translate(-6vw,14vh) scale(0.92); } 100% { transform: translate(0,0) scale(1); } }
+    @keyframes auroraB { 0% { transform: translate(0,0) scale(1); } 33% { transform: translate(-10vw,-8vh) scale(0.9); } 66% { transform: translate(8vw,-12vh) scale(1.1); } 100% { transform: translate(0,0) scale(1); } }
+    @keyframes auroraC { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(10vw,-10vh) scale(1.16); } 100% { transform: translate(0,0) scale(1); } }
+    @keyframes auroraD { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-12vw,8vh) scale(0.88); } 100% { transform: translate(0,0) scale(1); } }
+  </style>
+</helmet>
+
+<div style="font-family: 'DM Sans', sans-serif; color: #1A1518; min-height: 100vh; position: relative; overflow-x: clip;">
+
+  <!-- ANIMATED PINK WASH BACKGROUND -->
+  <div style="position: fixed; inset: 0; z-index: 0; background: #F2CBD9;"></div>
+  <div id="mesh-bg" style="position: fixed; inset: 0; z-index: 0; overflow: hidden;"></div>
+  <div id="orb-a" style="position: fixed; width: 60vw; height: 60vw; min-width: 500px; min-height: 500px; border-radius: 50%; right: -16vw; top: -20vh; z-index: 0; background: radial-gradient(circle at 50% 50%, rgba(248,231,217,0.95), rgba(248,231,217,0) 68%); filter: blur(70px); animation: auroraA 26s ease-in-out infinite; will-change: transform;"></div>
+  <div id="orb-b" style="position: fixed; width: 56vw; height: 56vw; min-width: 480px; min-height: 480px; border-radius: 50%; left: -18vw; top: 6vh; z-index: 0; background: radial-gradient(circle at 50% 50%, rgba(231,127,180,0.6), rgba(231,127,180,0) 66%); filter: blur(80px); animation: auroraB 32s ease-in-out infinite; will-change: transform;"></div>
+  <div id="orb-c" style="position: fixed; width: 50vw; height: 50vw; min-width: 440px; min-height: 440px; border-radius: 50%; left: 24vw; bottom: -26vh; z-index: 0; background: radial-gradient(circle at 50% 44%, rgba(236,159,198,0.7), rgba(236,159,198,0) 66%); filter: blur(80px); animation: auroraC 28s ease-in-out infinite; will-change: transform;"></div>
+  <div id="orb-d" style="position: fixed; width: 42vw; height: 42vw; min-width: 380px; min-height: 380px; border-radius: 50%; right: 4vw; bottom: -12vh; z-index: 0; background: radial-gradient(circle at 50% 50%, rgba(246,198,184,0.65), rgba(246,198,184,0) 64%); filter: blur(70px); animation: auroraD 24s ease-in-out infinite; will-change: transform;"></div>
+  <div id="mesh-veil" style="position: fixed; inset: 0; z-index: 0; pointer-events: none; background: rgba(255,255,255,0.18); opacity: 0; transition: opacity 1s ease;"></div>
+  <div style="position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.04; mix-blend-mode: multiply; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E&quot;);"></div>
+
+  <!-- PRELOADER -->
+  <div id="preloader" style="position: fixed; inset: 0; z-index: 100; background: #F2CBD9; display: flex; align-items: flex-end; justify-content: flex-start; padding: 6vh 5vw; transition: transform 0.9s cubic-bezier(0.76,0,0.24,1); will-change: transform;">
+    <div id="preloader-pct" style="font-weight: 500; font-size: clamp(64px, 10vw, 140px); letter-spacing: -0.04em; color: #1A1518; line-height: 1;">0%</div>
+  </div>
+
+  <!-- NAV -->
+  <nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 26px 40px;">
+    <div style="display: flex; align-items: baseline; gap: 44px;">
+      <a href="#top" style="text-decoration: none; color: #1A1518; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;">R <span style="font-weight: 300; color: rgba(26,21,24,0.4);">/</span> Z</a>
+      <div style="font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(26,21,24,0.55);">Providence, <span id="live-clock">--:--</span> EST</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <a href="#about" style="text-decoration: none; color: #1A1518; font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;" style-hover="opacity: 0.5">About</a>
+      <span style="color: rgba(26,21,24,0.35); font-size: 12px;">/</span>
+      <a href="#experience" style="text-decoration: none; color: #1A1518; font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;" style-hover="opacity: 0.5">Experience</a>
+      <span style="color: rgba(26,21,24,0.35); font-size: 12px;">/</span>
+      <a href="#contact" style="text-decoration: none; color: #1A1518; font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;" style-hover="opacity: 0.5">Contact</a>
+      <div style="width: 15px; height: 15px; border-radius: 50%; background: #1A1518; margin-left: 14px;"></div>
+    </div>
+  </nav>
+
+  <!-- FIXED EDGE LABELS -->
+  <div style="position: fixed; left: 40px; top: 50%; transform: translateY(-50%); z-index: 40; font-style: italic; font-size: 13px; font-weight: 500; color: #2A2226; pointer-events: none;">portfolio 2026</div>
+  <div id="scroll-hint" style="position: fixed; right: 40px; top: 50%; transform: translateY(-50%); z-index: 40; font-style: italic; font-size: 13px; font-weight: 500; color: #2A2226; pointer-events: none; transition: opacity 0.4s ease;">scroll</div>
+
+  <!-- FIXED CIRCLES -->
+  <div id="circle-progress" style="position: fixed; left: 40px; bottom: 36px; z-index: 40; width: 120px; height: 120px; border-radius: 50%; border: 1px solid rgba(26,21,24,0.35); display: flex; align-items: center; justify-content: center; pointer-events: none;">
+    <div id="scroll-pct" style="font-size: 26px; font-weight: 500; letter-spacing: -0.02em; color: #1A1518;">0%</div>
+  </div>
+  <a href="#about" title="About me" id="circle-photo" style="position: fixed; right: 40px; bottom: 36px; z-index: 40; width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(26,21,24,0.25); display: block; cursor: pointer; transition: transform 0.35s ease, box-shadow 0.35s ease;" style-hover="transform: scale(1.06); box-shadow: 0 16px 44px rgba(120,40,80,0.3)">
+    <img src="assets/portrait-flowers.png" alt="Rui Zhou — graduation portrait with flowers" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; display: block;">
+  </a>
+
+  <!-- HERO -->
+  <section id="top" data-screen-label="Hero" style="position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 140px 8vw 160px;">
+    <h1 style="margin: 0; padding: 0; line-height: 0;" aria-label="Rui Zhou">
+      <canvas id="hero-particles" style="display: block; width: min(1150px, 92vw); height: clamp(120px, 21vw, 300px);"></canvas>
+    </h1>
+    <div data-reveal="" style="display: flex; gap: 14px; align-items: baseline; justify-content: center; flex-wrap: wrap; margin-top: 10px; font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,21,24,0.6);">
+      <span>ROLE. ML ENGINEER &amp; SDE &amp; RESEARCHER</span>
+      <span style="color: rgba(26,21,24,0.3);">/</span>
+      <span>BASED. USA (WILLING TO RELOCATE)</span>
+    </div>
+    <div data-reveal="" style="display: flex; align-items: center; justify-content: center; gap: 8vw; flex-wrap: wrap; margin-top: 64px;">
+      <p style="margin: 0; max-width: 400px; text-align: left; font-size: 17px; line-height: 1.6; color: #3E363C;">Hi, I'm Rui! A Master's student in Computer Science at Brown University — building intelligent visual systems, from video generation research to production ML.</p>
+      <a href="https://www.linkedin.com/in/rui-zhou-354646200" target="_blank" rel="noopener" style="text-decoration: none; display: inline-flex; align-items: center; gap: 14px; padding: 15px 28px; border: 1px solid #1A1518; border-radius: 12px; font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.2em; color: #1A1518; transition: background 0.3s ease, color 0.3s ease;" style-hover="background: #1A1518; color: #F2CBD9">LINKEDIN <span style="font-family: 'DM Sans', sans-serif;">↗</span></a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" data-screen-label="About" style="position: relative; z-index: 2; padding: 120px 8vw;">
+    <div data-reveal="" style="text-align: center; margin-bottom: 70px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 12.5px; letter-spacing: 0.2em; color: rgba(26,21,24,0.5); margin-bottom: 18px;">N. 01</div>
+      <h2 style="margin: 0; font-style: italic; font-weight: 500; font-size: clamp(52px, 8vw, 120px); line-height: 1; letter-spacing: -0.03em; color: #1A1518;">about me</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: minmax(260px, 360px) 1fr; gap: 6vw; align-items: center; max-width: 1080px; margin: 0 auto;">
+      <div data-reveal="" style="position: relative;">
+        <div style="position: absolute; inset: -22px; border-radius: 50%; background: radial-gradient(circle, rgba(231,127,180,0.55), rgba(231,127,180,0) 70%); filter: blur(26px);"></div>
+        <img src="assets/graduation.png" alt="Rui Zhou at Brown University commencement" style="position: relative; width: 100%; display: block; border-radius: 20px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 30px 70px rgba(120,40,80,0.28);">
+      </div>
+      <div data-reveal="">
+        <p style="font-size: 17px; line-height: 1.72; color: #3E363C; margin: 0 0 16px; max-width: 560px;">I'm a Master's student in Computer Science at Brown University, working with the Brown Visual Computing Group on controllable video generation and garment program synthesis. Before Brown — a B.S. in Computer Science at UC Davis with a minor in Managerial Economics, plus visiting coursework at Harvard.</p>
+        <p style="font-size: 17px; line-height: 1.72; color: #3E363C; margin: 0 0 36px; max-width: 560px;">My work lives where computer vision, generative models, and full-stack engineering meet — turning research ideas into systems people actually use.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; gap: 10px; align-items: baseline;">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #1A1518; width: 110px;">Brown</div>
+            <div style="font-size: 12.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,21,24,0.55);">M.S. COMPUTER SCIENCE</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: baseline;">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #1A1518; width: 110px;">UC Davis</div>
+            <div style="font-size: 12.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,21,24,0.55);">B.S. Computer Science · Econ Minor</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: baseline;">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #1A1518; width: 110px;">Harvard</div>
+            <div style="font-size: 12.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,21,24,0.55);">Visiting Coursework</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" data-screen-label="Experience" style="position: relative; z-index: 2; padding: 120px 0 140px;">
+    <div style="position: sticky; top: 14vh; z-index: 0; text-align: center; pointer-events: none;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 12.5px; letter-spacing: 0.2em; color: rgba(26,21,24,0.5); margin-bottom: 18px;">N. 02</div>
+      <h2 style="margin: 0; font-style: italic; font-weight: 500; font-size: clamp(52px, 8vw, 120px); line-height: 1; letter-spacing: -0.03em; color: #1A1518;">experience</h2>
+    </div>
+    <div style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 9vh; width: min(760px, 88vw); margin: 0 auto; padding-top: 26vh;">
+      <sc-for list="{{ experiences }}" as="job" hint-placeholder-count="3">
+        <div data-reveal="">
+          <div data-tilt="" style="position: relative; box-sizing: border-box; width: 100%; border-radius: 24px; background: rgba(255,252,250,0.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 24px 60px rgba(120,40,80,0.16); padding: 42px 46px; transform-style: preserve-3d; will-change: transform;">
+            <div data-tilt-glare="" style="position: absolute; inset: 0; border-radius: 24px; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), rgba(255,255,255,0) 60%);"></div>
+            <div style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26,21,24,0.5); margin-bottom: 16px;">{{ job.dates }} — {{ job.place }}</div>
+            <h3 style="margin: 0 0 12px; font-style: italic; font-weight: 500; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.02; letter-spacing: -0.03em; color: #1A1518;">{{ job.org }}</h3>
+            <div style="font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(26,21,24,0.6); margin-bottom: 18px;">Role. {{ job.role }}</div>
+            <p style="margin: 0; font-size: 15.5px; line-height: 1.66; color: #3E363C;">{{ job.summary }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PUBLICATION -->
+  <section id="publications" data-screen-label="Publications" style="position: relative; z-index: 2; padding: 120px 8vw; text-align: center;">
+    <div data-reveal="">
+      <div style="font-family: 'DM Mono', monospace; font-size: 12.5px; letter-spacing: 0.2em; color: rgba(26,21,24,0.5); margin-bottom: 18px;">N. 03 — PUBLICATION</div>
+      <h2 style="margin: 0 auto; max-width: 1000px; font-style: italic; font-weight: 500; font-size: clamp(34px, 5vw, 72px); line-height: 1.06; letter-spacing: -0.025em; color: #1A1518;">GenHSI: Controllable Generation of Human-Scene Interaction Videos</h2>
+      <div style="display: flex; gap: 14px; align-items: baseline; justify-content: center; flex-wrap: wrap; margin-top: 26px; font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,21,24,0.6);">
+        <span>Venue. WACV 2026</span>
+        <span style="color: rgba(26,21,24,0.3);">/</span>
+        <span>Status. Accepted</span>
+      </div>
+      <p style="margin: 30px auto 0; max-width: 560px; font-size: 16.5px; line-height: 1.62; color: #3E363C;">A training-free, 3D-aware keyframe prompting pipeline for long, controllable human-scene interaction video generation. Co-authored with the Brown Visual Computing Group.</p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" data-screen-label="Skills" style="position: relative; z-index: 2; padding: 100px 8vw;">
+    <div data-reveal="" style="text-align: center; margin-bottom: 60px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 12.5px; letter-spacing: 0.2em; color: rgba(26,21,24,0.5); margin-bottom: 18px;">N. 04</div>
+      <h2 style="margin: 0; font-style: italic; font-weight: 500; font-size: clamp(52px, 8vw, 120px); line-height: 1; letter-spacing: -0.03em; color: #1A1518;">toolbox</h2>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 34px; max-width: 880px; margin: 0 auto;">
+      <sc-for list="{{ skillGroups }}" as="group" hint-placeholder-count="3">
+        <div data-reveal="" style="display: flex; gap: 40px; align-items: baseline; flex-wrap: wrap;">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #1A1518; width: 150px; flex-shrink: 0;">{{ group.label }}</div>
+          <div style="font-size: clamp(18px, 2.1vw, 24px); font-weight: 500; letter-spacing: -0.01em; line-height: 1.5; color: #3E363C; flex: 1; min-width: 280px;">{{ group.line }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" data-screen-label="Contact" style="position: relative; z-index: 2; min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 8vw 180px;">
+    <div data-reveal="">
+      <div style="font-family: 'DM Mono', monospace; font-size: 12.5px; letter-spacing: 0.2em; color: rgba(26,21,24,0.5); margin-bottom: 22px;">N. 05 — CONTACT</div>
+      <h2 style="margin: 0; font-style: italic; font-weight: 500; font-size: clamp(64px, 12vw, 180px); line-height: 0.98; letter-spacing: -0.03em; color: #1A1518;">let's talk</h2>
+      <div style="display: flex; gap: 14px; align-items: baseline; justify-content: center; flex-wrap: wrap; margin-top: 24px; font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,21,24,0.6);">
+        <span>Open to. SWE &amp; ML roles</span>
+        <span style="color: rgba(26,21,24,0.3);">/</span>
+        <span>From. 2026</span>
+      </div>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 52px;">
+        <a href="mailto:bettyzhourui@gmail.com" style="text-decoration: none; display: inline-flex; align-items: center; gap: 14px; padding: 16px 30px; border: 1px solid #1A1518; border-radius: 12px; font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; color: #1A1518; background: transparent; transition: background 0.3s ease, color 0.3s ease;" style-hover="background: #1A1518; color: #F2CBD9">EMAIL <span style="font-family: 'DM Sans', sans-serif;">↗</span></a>
+        <a href="https://www.linkedin.com/in/rui-zhou-354646200" target="_blank" rel="noopener" style="text-decoration: none; display: inline-flex; align-items: center; gap: 14px; padding: 16px 30px; border: 1px solid #1A1518; border-radius: 12px; font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; color: #1A1518; background: transparent; transition: background 0.3s ease, color 0.3s ease;" style-hover="background: #1A1518; color: #F2CBD9">LINKEDIN <span style="font-family: 'DM Sans', sans-serif;">↗</span></a>
+      </div>
+      <div style="margin-top: 80px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(26,21,24,0.45);">© 2026 Rui Zhou — bettyzhourui@gmail.com</div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;meshSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.84,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.02,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;showPreloader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Intro&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.setupMesh();
+    this.runPreloader();
+    this.setupReveals();
+    this.setupPointer();
+    this.applyMotion();
+    this.startClock();
+    this.setupParticleText();
+    this.setupTilt();
+    this.applyCircleLayout();
+    this._onCircles = () => this.applyCircleLayout();
+    window.addEventListener('resize', this._onCircles);
+    this._onScroll = () => {
+      const hint = document.getElementById('scroll-hint');
+      if (hint) hint.style.opacity = window.scrollY > 60 ? '0' : '1';
+      const pct = document.getElementById('scroll-pct');
+      if (pct) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const p = max > 0 ? Math.round((window.scrollY / max) * 100) : 0;
+        pct.textContent = Math.min(100, Math.max(0, p)) + '%';
+      }
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+
+  componentDidUpdate() {
+    this.applyMotion();
+  }
+
+  async setupMesh() {
+    const holder = document.getElementById('mesh-bg');
+    if (!holder) return;
+    try {
+      const [mod, R, RD] = await Promise.all([
+        import('https://esm.sh/@paper-design/shaders-react?deps=react@18.3.1,react-dom@18.3.1'),
+        import('https://esm.sh/react@18.3.1'),
+        import('https://esm.sh/react-dom@18.3.1/client')
+      ]);
+      if (!mod.MeshGradient) throw new Error('MeshGradient export missing');
+      this._Mesh = mod.MeshGradient;
+      this._R = R;
+      this._meshRoot = RD.createRoot(holder);
+      this._meshOk = true;
+      ['orb-a', 'orb-b', 'orb-c', 'orb-d'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      const veil = document.getElementById('mesh-veil');
+      if (veil) veil.style.opacity = '1';
+      this.renderMesh();
+      this._onResize = () => this.renderMesh();
+      window.addEventListener('resize', this._onResize);
+    } catch (e) {
+      console.warn('Mesh gradient unavailable; keeping fallback aurora background.', e);
+    }
+  }
+
+  renderMesh() {
+    if (!this._meshOk || !this._meshRoot) return;
+    const motion = this.props.motion ?? true;
+    const speed = motion ? (this.props.meshSpeed ?? 0.42) : 0;
+    this._meshRoot.render(this._R.createElement(this._Mesh, {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      colors: ['#F6D9E4', '#EC9FC6', '#E77FB4', '#F8E7D9', '#D9C4F2', '#F6C6B8'],
+      distortion: 0.8,
+      swirl: 0.6,
+      grainMixer: 0,
+      grainOverlay: 0,
+      speed: speed,
+      offsetX: 0.08
+    }));
+  }
+
+  setupParticleText() {
+    const canvas = document.getElementById('hero-particles');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const text = 'Rui Zhou';
+    const color = '#1A1518';
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const mouse = { x: -9999, y: -9999 };
+    let particles = [];
+
+    const build = () => {
+      const cssW = canvas.clientWidth;
+      const cssH = canvas.clientHeight;
+      if (!cssW || !cssH) return;
+      canvas.width = cssW * dpr;
+      canvas.height = cssH * dpr;
+      const off = document.createElement('canvas');
+      off.width = cssW; off.height = cssH;
+      const octx = off.getContext('2d');
+      const fontStr = s => 'italic 500 ' + s + "px 'DM Sans', sans-serif";
+      octx.textAlign = 'center';
+      octx.textBaseline = 'middle';
+      let fs = cssH * 0.8;
+      octx.font = fontStr(fs);
+      const w = octx.measureText(text).width || 1;
+      fs = Math.min(fs * (cssW * 0.92) / w, cssH * 0.84);
+      octx.font = fontStr(fs);
+      octx.fillStyle = '#000';
+      octx.fillText(text, cssW / 2, cssH / 2);
+      const data = octx.getImageData(0, 0, cssW, cssH).data;
+      const gap = Math.max(4, Math.round(cssW / 300));
+      const next = [];
+      for (let y = 0; y < cssH; y += gap) {
+        for (let x = 0; x < cssW; x += gap) {
+          if (data[(y * cssW + x) * 4 + 3] > 128) {
+            const prev = particles.length ? particles[next.length % particles.length] : null;
+            next.push({
+              hx: x, hy: y,
+              x: prev ? prev.x : Math.random() * cssW,
+              y: prev ? prev.y : Math.random() * cssH,
+              vx: 0, vy: 0
+            });
+          }
+        }
+      }
+      particles = next;
+    };
+
+    const draw = () => {
+      const motion = this.props.motion ?? true;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = color;
+      const R = 88;
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        let ax = (p.hx - p.x) * 0.075;
+        let ay = (p.hy - p.y) * 0.075;
+        if (motion) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < R * R) {
+            const d = Math.sqrt(d2) || 1;
+            const f = (R - d) / R * 4.2;
+            ax += (dx / d) * f;
+            ay += (dy / d) * f;
+          }
+        }
+        p.vx = (p.vx + ax) * 0.82;
+        p.vy = (p.vy + ay) * 0.82;
+        p.x += p.vx;
+        p.y += p.vy;
+        ctx.fillRect(p.x, p.y, 1.7, 1.7);
+      }
+      this._ptRaf = requestAnimationFrame(draw);
+    };
+
+    this._onPtMove = e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+    };
+    this._onPtLeave = () => { mouse.x = -9999; mouse.y = -9999; };
+    canvas.addEventListener('mousemove', this._onPtMove);
+    canvas.addEventListener('mouseleave', this._onPtLeave);
+    this._onPtResize = () => build();
+    window.addEventListener('resize', this._onPtResize);
+    this._ptCanvas = canvas;
+
+    const start = () => { build(); if (!this._ptRaf) draw(); };
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load("italic 500 100px 'DM Sans'").then(start).catch(start);
+    } else {
+      start();
+    }
+  }
+
+  setupTilt() {
+    const cards = document.querySelectorAll('[data-tilt]');
+    const MAX = 9;
+    this._tiltCleanup = [];
+    cards.forEach(card => {
+      const glare = card.querySelector('[data-tilt-glare]');
+      card.style.transition = 'transform 0.25s cubic-bezier(0.22,1,0.36,1)';
+      const enter = () => {
+        if (!(this.props.motion ?? true)) return;
+        card.style.transition = 'transform 0.08s ease-out';
+        if (glare) glare.style.opacity = '1';
+      };
+      const move = e => {
+        if (!(this.props.motion ?? true)) return;
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = (0.5 - py) * 2 * MAX;
+        const ry = (px - 0.5) * 2 * MAX;
+        card.style.transform = 'perspective(1000px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale(1.02)';
+        if (glare) {
+          glare.style.background = 'radial-gradient(circle at ' + (px * 100) + '% ' + (py * 100) + '%, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%)';
+        }
+      };
+      const leave = () => {
+        card.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        if (glare) glare.style.opacity = '0';
+      };
+      card.addEventListener('mouseenter', enter);
+      card.addEventListener('mousemove', move);
+      card.addEventListener('mouseleave', leave);
+      this._tiltCleanup.push(() => {
+        card.removeEventListener('mouseenter', enter);
+        card.removeEventListener('mousemove', move);
+        card.removeEventListener('mouseleave', leave);
+      });
+    });
+  }
+
+  applyCircleLayout() {
+    const narrow = window.innerWidth < 1080;
+    const prog = document.getElementById('circle-progress');
+    const photo = document.getElementById('circle-photo');
+    if (prog) prog.style.display = narrow ? 'none' : 'flex';
+    if (photo) photo.style.display = narrow ? 'none' : 'block';
+  }
+
+  startClock() {
+    const update = () => {
+      const el = document.getElementById('live-clock');
+      if (!el) return;
+      el.textContent = new Date().toLocaleTimeString('en-US', {
+        timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit'
+      });
+    };
+    update();
+    this._clock = setInterval(update, 20000);
+  }
+
+  applyMotion() {
+    const motion = this.props.motion ?? true;
+    if (this._meshOk) {
+      this.renderMesh();
+      return;
+    }
+    ['orb-a', 'orb-b', 'orb-c', 'orb-d'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.animationPlayState = motion ? 'running' : 'paused';
+    });
+  }
+
+  runPreloader() {
+    const overlay = document.getElementById('preloader');
+    const pct = document.getElementById('preloader-pct');
+    const lines = document.querySelectorAll('[data-heroline]');
+    lines.forEach(el => {
+      el.style.transform = 'translateY(112%)';
+      el.style.transition = 'transform 1.05s cubic-bezier(0.22,1,0.36,1)';
+    });
+    const finish = () => {
+      if (overlay) {
+        overlay.style.transform = 'translateY(-100%)';
+        setTimeout(() => { overlay.style.display = 'none'; }, 950);
+      }
+      lines.forEach((el, i) => {
+        setTimeout(() => { el.style.transform = 'translateY(0)'; }, 260 + i * 130);
+      });
+    };
+    if (!(this.props.showPreloader ?? true)) {
+      if (overlay) overlay.style.display = 'none';
+      lines.forEach(el => { el.style.transform = 'translateY(0)'; });
+      return;
+    }
+    const t0 = performance.now();
+    const dur = 1500;
+    const tick = now => {
+      const t = Math.min((now - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      if (pct) pct.textContent = Math.round(eased * 100) + '%';
+      if (t < 1) {
+        this._pre = requestAnimationFrame(tick);
+      } else {
+        setTimeout(finish, 180);
+      }
+    };
+    this._pre = requestAnimationFrame(tick);
+  }
+
+  setupReveals() {
+    const els = document.querySelectorAll('[data-reveal]');
+    els.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1)';
+    });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+    this._io = io;
+  }
+
+  setupPointer() {
+    const orbA = document.getElementById('orb-a');
+    const orbB = document.getElementById('orb-b');
+    const orbC = document.getElementById('orb-c');
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let ax = 0, ay = 0, bx = 0, by = 0, cx = 0, cy = 0;
+    const onMove = e => { mx = e.clientX; my = e.clientY; };
+    window.addEventListener('mousemove', onMove);
+    this._onMove = onMove;
+    const tick = () => {
+      const motion = this.props.motion ?? true;
+      const px = (mx / window.innerWidth - 0.5), py = (my / window.innerHeight - 0.5);
+      ax += (px * 60 - ax) * 0.035; ay += (py * 60 - ay) * 0.035;
+      bx += (px * -80 - bx) * 0.028; by += (py * -80 - by) * 0.028;
+      cx += (px * 45 - cx) * 0.03; cy += (py * -50 - cy) * 0.03;
+      if (motion) {
+        if (orbA) orbA.style.marginRight = ax + 'px', orbA.style.marginTop = ay + 'px';
+        if (orbB) orbB.style.marginLeft = bx + 'px', orbB.style.marginTop = by + 'px';
+        if (orbC) orbC.style.marginLeft = cx + 'px', orbC.style.marginBottom = cy + 'px';
+      }
+      this._raf = requestAnimationFrame(tick);
+    };
+    this._raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    if (this._meshRoot) this._meshRoot.unmount();
+    if (this._onResize) window.removeEventListener('resize', this._onResize);
+    if (this._onCircles) window.removeEventListener('resize', this._onCircles);
+    if (this._tiltCleanup) this._tiltCleanup.forEach(fn => fn());
+    if (this._ptRaf) cancelAnimationFrame(this._ptRaf);
+    if (this._onPtResize) window.removeEventListener('resize', this._onPtResize);
+    if (this._ptCanvas) {
+      this._ptCanvas.removeEventListener('mousemove', this._onPtMove);
+      this._ptCanvas.removeEventListener('mouseleave', this._onPtLeave);
+    }
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._pre) cancelAnimationFrame(this._pre);
+    if (this._clock) clearInterval(this._clock);
+    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+  }
+
+  renderVals() {
+    return {
+      experiences: [
+        {
+          org: 'brown visual computing',
+          role: 'Research Assistant',
+          place: 'Providence, RI',
+          dates: '2024 — Now',
+          summary: 'Co-authored GenHSI (WACV 2026). Currently leading body2GarmentCode — program synthesis for garment grading across body shapes. Built automated data validation and preprocessing for video generation experiments.'
+        },
+        {
+          org: 'style3d',
+          role: 'SWE Intern, AI/ML',
+          place: 'Hangzhou, China',
+          dates: '2024',
+          summary: 'Built production ML pipelines for Fabric-TryOn with Stable Diffusion and PyTorch — 850K+ units sold, 60+ enterprise clients. Developed texture inpainting/outpainting and benchmarked multimodal embedding models for Chinese text-to-image alignment.'
+        },
+        {
+          org: 'uc davis data viz lab',
+          role: 'Research Assistant',
+          place: 'Davis, CA',
+          dates: '2023 — 2024',
+          summary: 'Architected an end-to-end RAG pipeline for the GreenMine Project — 600+ pages of unstructured legal and interview data made queryable with GPT-4 and Qdrant. Multi-threaded ingestion cut query response time by 25%.'
+        }
+      ],
+      skillGroups: [
+        { label: 'Languages', line: 'Python, TypeScript, C/C++, Java, R' },
+        { label: 'ML & Vision', line: 'PyTorch, TensorFlow, OpenCV, Stable Diffusion, NumPy, Pandas' },
+        { label: 'Systems & Web', line: 'Linux, Git, NoSQL, Vue.js, Qdrant, Firebase' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
