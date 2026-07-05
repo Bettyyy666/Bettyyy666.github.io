@@ -300,9 +300,10 @@ class Component extends DCLogic {
             const prev = particles.length ? particles[next.length % particles.length] : null;
             next.push({
               hx: x, hy: y,
-              x: prev ? prev.x : Math.random() * cssW,
-              y: prev ? prev.y : Math.random() * cssH,
-              vx: 0, vy: 0
+              x: prev ? prev.x : x + (Math.random() - 0.5) * 10,
+              y: prev ? prev.y : y + (Math.random() - 0.5) * 10,
+              vx: prev ? prev.vx : (Math.random() - 0.5) * 5,
+              vy: prev ? prev.vy : (Math.random() - 0.5) * 5
             });
           }
         }
@@ -310,31 +311,49 @@ class Component extends DCLogic {
       particles = next;
     };
 
+    const R = 120;            // interaction radius
+    const DISPERSION = 15;    // dispersion strength
+    const RETURN = 0.08;      // return speed
+    const DAMP = 0.85;        // velocity damping
+    const SIZE = 1.5;         // particle radius
+    const TWO_PI = Math.PI * 2;
+
     const draw = () => {
       const motion = this.props.motion ?? true;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = color;
-      const R = 88;
+      const active = motion && mouse.x > -9998;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        let ax = (p.hx - p.x) * 0.075;
-        let ay = (p.hy - p.y) * 0.075;
-        if (motion) {
-          const dx = p.x - mouse.x, dy = p.y - mouse.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < R * R) {
-            const d = Math.sqrt(d2) || 1;
-            const f = (R - d) / R * 4.2;
-            ax += (dx / d) * f;
-            ay += (dy / d) * f;
+
+        if (active) {
+          const dx = mouse.x - p.x, dy = mouse.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < R && dist > 0) {
+            const force = (R - dist) / R;
+            p.vx -= (dx / dist) * force * DISPERSION;
+            p.vy -= (dy / dist) * force * DISPERSION;
           }
         }
-        p.vx = (p.vx + ax) * 0.82;
-        p.vy = (p.vy + ay) * 0.82;
+
+        p.vx += (p.hx - p.x) * RETURN;
+        p.vy += (p.hy - p.y) * RETURN;
+        p.vx *= DAMP;
+        p.vy *= DAMP;
+
+        const ox = p.x - p.hx, oy = p.y - p.hy;
+        if (ox * ox + oy * oy < 1 && Math.random() > 0.95) {
+          p.vx += (Math.random() - 0.5) * 0.2;
+          p.vy += (Math.random() - 0.5) * 0.2;
+        }
+
         p.x += p.vx;
         p.y += p.vy;
-        ctx.fillRect(p.x, p.y, 1.7, 1.7);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, SIZE, 0, TWO_PI);
+        ctx.fill();
       }
       this._ptRaf = requestAnimationFrame(draw);
     };
