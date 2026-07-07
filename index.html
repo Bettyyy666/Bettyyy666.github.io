@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -189,7 +195,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;meshSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.84,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.02,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;showPreloader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Intro&quot;}}">
 class Component extends DCLogic {
   componentDidMount() {
-    this.setupMesh();
+    // setupMesh() 已停用 —— 背景由 bg3d.js(three.js)接管,CSS orbs 作为 WebGL 失败时的兜底
     this.runPreloader();
     this.setupReveals();
     this.setupPointer();
@@ -587,5 +593,6 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script type="module" src="./bg3d.js"></script>
 </body>
 </html>
